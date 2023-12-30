@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   const fetchApi = async () => {
-    setLoading(true);
+    // setLoading(true);
     const configurationObject = {
       method: 'get',
       url: `https://shorturl.at/pyAH9`,
