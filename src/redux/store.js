@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { cartReducers } from "./reducers/cartReducers";
-import {themeReducers} from './reducers/themeReducers';
- import {loading} from './reducers/loading';
- import { languageReducer } from './reducers/languageReducer'
+import createSagaMiddleware from 'redux-saga';
+import rootReducer from "./reducers/rootReducer";
+import productSaga from './saga/productSaga';
+import userSaga from "./saga/userSaga";
 
-export default configureStore({
-    reducer: {
-        cartReducers: cartReducers,
-        themeReducers:themeReducers,
-        loading:loading,
-        language:languageReducer,
-    },
+
+const sagaMiddleware = createSagaMiddleware();
+const store  = configureStore({
+    reducer:rootReducer,
+    middleware:()=>[sagaMiddleware]
 });
+sagaMiddleware.run(productSaga);
+sagaMiddleware.run(userSaga);
+export default store;
