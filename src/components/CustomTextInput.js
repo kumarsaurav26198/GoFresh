@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         // backgroundColor:"white",
          width:"100%",
-          color:"black"
+          color:"black",
+          letterSpacing:3,
     }
 });

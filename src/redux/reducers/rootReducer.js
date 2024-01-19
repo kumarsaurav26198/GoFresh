@@ -5,6 +5,7 @@ import { loading } from './loading';
 import { languageReducer } from './languageReducer';
 import { productReducers } from './productListReducers';
 import { userReducers } from './userReducers';
+import { pokemonReducers } from './pokemonReducers';
 
 export default combineReducers({
     cartReducers: cartReducers,
@@ -12,5 +13,6 @@ export default combineReducers({
     loading:loading,
     language:languageReducer,
     productReducers:productReducers,
-    userReducers:userReducers
+    userReducers:userReducers,
+    pokemonReducers:pokemonReducers
 })

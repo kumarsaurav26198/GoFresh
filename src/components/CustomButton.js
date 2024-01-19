@@ -9,8 +9,8 @@ const CustomButton = (props) => {
                 backgroundColor: backgroundColor,
                 width: "100%",
                 height: 50,
-                borderRadius: 50,
-                marginTop: 25,
+                borderRadius: 10,
+                marginTop: 15,
                 justifyContent: "center",
                 alignItems: "center"
             }}>
@@ -18,7 +18,8 @@ const CustomButton = (props) => {
                     color: color,
                     fontSize: 18,
                     fontWeight: "normal",
-                    textAlign: "center"
+                    textAlign: "center",
+                    fontWeight:"500"
                 }}>
                     {title}
                 </Text>
