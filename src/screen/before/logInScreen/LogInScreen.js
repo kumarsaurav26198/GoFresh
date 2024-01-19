@@ -1,6 +1,7 @@
 import {
   Image,
-  SafeAreaView,
+  Text,
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -10,32 +11,42 @@ import CustomButton from '../../../components/CustomButton';
 import Images from '../../../utils/Images';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../../../redux/action/themeActions';
-import {translation} from '../../../utils/language';
 
 
 const LogInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const theme = useSelector(state => state.themeReducers);
-  const [ isDark, setisDark ] = useState(false);
   console.warn("themeReducers===>>", theme);
   const [ email, setEmail ] = useState('');
   const [ badEmail, setBadEmail ] = useState(false);
   const [ password, setPassword ] = useState('');
   const [ badPassword, setBadPassword ] = useState('');
   const [ dark, setDark ] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [ modalVisible, setModalVisible ] = useState(false);
 
-  const handleSignIn = () => {
+  const handleRegister = () => {
     navigation.navigate('Register');
   };
   const handleLogin = () => {
-    //  setModalVisible(true)
     navigation.navigate('DrawerNavigation');
+  };
+
+  const handleForget = () => {
+    console.warn("handleForget");
+  };
+  const handleFacebook = () => {
+    console.warn("handleFacebook");
+  };
+  const handleGoogle = () => {
+    console.warn("handleGoogle");
+  };
+  const handleApple = () => {
+    console.warn("handleApple");
   };
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <View style={[ styles.container, { backgroundColor: theme ? 'black' : 'white' } ]}>
         <View style={styles.imageContainer}>
           <Image source={Images.user} style={styles.imageContainer} />
@@ -49,19 +60,44 @@ const LogInScreen = ({ navigation }) => {
         <CustomButton title={"Log In"}
           onPress={() => {
             handleLogin();
-          }} color={theme ? "#1bb57d" : "white"} backgroundColor={theme ? "white" : "#1bb57d"} />
-        <CustomButton title={"Sign in"}
+          }} color={theme ? "#fff" : "white"} backgroundColor={theme ? "#3b71f3" : "#3b71f3"} />
+        <CustomButton title={
+          <React.Fragment>
+            Forget password
+            <Text style={{ color: '#3b71f3' ,fontWeight:"bold",fontSize:22}}> ?</Text>
+          </React.Fragment>
+        }
           onPress={() => {
-            handleSignIn();
-          }} color={theme ? "#1bb57d" : "white"} backgroundColor={theme ? "white" : "#1bb57d"} />
+            handleForget();
+          }} color={theme ? "white" : "#000"} backgroundColor={theme ? "black" : "white"} />
+        <CustomButton title={"Sign with facebook"}
+          onPress={() => {
+            handleFacebook();
+          }} color={theme ? "#4765a9" : "#4765a9"} backgroundColor={theme ? "white" : "#e7eaf4"} />
+        <CustomButton title={"Sign with Google"}
+          onPress={() => {
+            handleGoogle();
+          }} color={theme ? "#dd4d44" : "#dd4d44"} backgroundColor={theme ? "#fae9ea" : "#fae9ea"} />
+        <CustomButton title={"Sign with Apple"}
+          onPress={() => {
+            handleApple();
+          }} color={theme ? "#000" : "black"} backgroundColor={theme ? "#e3e3e3" : "#e3e3e3"} />
+        <CustomButton title={
+          <React.Fragment>
+            Create an account
+            <Text style={{ color: theme?"#4765a9":'#3b71f3',fontWeight:"bold" ,fontSize:18}}> ?New</Text>
+          </React.Fragment>
+        }
+          onPress={() => {
+            handleRegister();
+          }} color={theme ? "white" : "#000"} backgroundColor={theme ? "black" : "white"} />
         <CustomButton title={"Apply Theme"}
           onPress={() => {
             setDark(!dark);
             dispatch(changeTheme(dark));
           }} color={theme ? "#1bb57d" : "white"} backgroundColor={theme ? "white" : "#1bb57d"} />
-
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

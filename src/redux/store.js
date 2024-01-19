@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from "./reducers/rootReducer";
 import productSaga from './saga/productSaga';
 import userSaga from "./saga/userSaga";
-
+import pokemonSaga from "./saga/pokemonSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 const store  = configureStore({
@@ -12,4 +12,5 @@ const store  = configureStore({
 });
 sagaMiddleware.run(productSaga);
 sagaMiddleware.run(userSaga);
+sagaMiddleware.run(pokemonSaga);
 export default store;
