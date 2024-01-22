@@ -14,6 +14,8 @@ import Websites from '../screen/after/websites/Websites';
 import Support from '../screen/after/support/Support';
 import Notifications from '../screen/after/notification/Notifications';
 import Images from '../utils/Images';
+import ForgetPassword from '../screen/before/forgetPassword/ForgetPassword';
+import CreateNewPassword from '../screen/before/createNewPassword/CreateNewPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +51,8 @@ const AppNavigation = () => {
                 <Stack.Navigator initialRouteName="LogInScreen" screenOptions={{ ...screenOptions }}>
                     <Stack.Screen name="LogInScreen" component={LogInScreen} options={{ ...screenOptions }} />
                     <Stack.Screen name="Register" component={Register} options={{ ...commonOptions }} />
+                    <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ ...commonOptions }} />
+                    <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} options={{ ...commonOptions }} />
                     <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{ headerShown: false }} />
                     <Stack.Screen name="About" component={About} options={{ ...commonOptions, title: 'About' }} />
                     <Stack.Screen name="MyBook" component={MyBook} options={{ ...commonOptions, title: 'My Book'}} />

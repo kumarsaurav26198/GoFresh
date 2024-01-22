@@ -1,26 +1,13 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import {  SafeAreaView, StyleSheet, Text, } from 'react-native';
 
 const About = (props) => {
-  const base=props.route?.params?.baseURL
+  const base=props.route?.params
   console.log("propspropsprops==>",base)
-  const [ data, setData ] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = () => {
-    console.log("alert");
-    axios.get(base).then((response) => {
-      console.log("fetchData====>>>", response?.data);
-      // setData(response?.data);
-    });
-  };
 
   return (
     <SafeAreaView>
       <Text>About</Text>
-      <FlatList
+      {/* <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({item}) => {
@@ -28,7 +15,7 @@ const About = (props) => {
             <Text>{`${item.id}`} {item.title}</Text>
             <Text>{item.body}</Text>
           </>);
-        }} />
+        }} /> */}
     </SafeAreaView>
   );
 };

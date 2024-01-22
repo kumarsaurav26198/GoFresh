@@ -4,7 +4,6 @@ import React from 'react';
 const  CustomTextInput = (props) => {
     const { value, placeholder, icon, type, onChange, keyboardType } = props;
     return (
-        <View style={{paddingTop:10,paddingBottom:10}}>
             <View style={styles.container}>
                 <Image source={icon} style={styles.imageContainer} />
                 <TextInput style={styles.textContainer}
@@ -16,7 +15,6 @@ const  CustomTextInput = (props) => {
                     keyboardType={keyboardType}
                 />
             </View>
-        </View>
     );
 };
 
@@ -26,16 +24,17 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         height: 50,
-        borderWidth: 0.4,
+        borderWidth: 0.6,
+        borderColor:"#000",
         borderRadius: 10,
         alignSelf: "center",
         flexDirection: "row",
         alignItems: "center",
         paddingLeft: 20,
         paddingRight: 20,
-        marginTop: 20,
         backgroundColor:"white",
-       
+        marginTop: 8,
+        marginBottom:8,
     },
     imageContainer: {
         width: 24,
@@ -43,9 +42,8 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         marginLeft: 10,
-        // backgroundColor:"white",
          width:"100%",
           color:"black",
-          letterSpacing:3,
+          letterSpacing:2.3,
     }
 });

@@ -9,14 +9,14 @@ import {
 import React from 'react';
 import Images from '../utils/Images';
 
-const HomeCard = ( {onPress, name, image, type, attack}) => {
+const HomeCard = ( {onPress, name, image, type, attack,id}) => {
 
   return (
     <>
       <TouchableOpacity style={styles.card} onPress={onPress}>
         <View style={{paddingTop: 24, paddingLeft: 10}}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-            {name}
+            {id}. {name}
           </Text>
           <View style={styles.cardBody}>
             <View>
@@ -38,12 +38,15 @@ const HomeCard = ( {onPress, name, image, type, attack}) => {
           </View>
         </View>
         <View style={{}}>
-        <Image source={Images.Broom} style={styles.image} />
-          {/* <ImageBackground
+
+          <ImageBackground
             source={require('../assets/images/eclipse.png')}
-            style={{height: '80%', width: '100%', top: 50}}>
-            <Image source={image} style={styles.image} />
-          </ImageBackground> */}
+            style={{height: '80%', width: '100%', top: 40}}>
+            <Image
+            source={{ uri: `${image}` }}
+            style={styles.image}
+          />
+          </ImageBackground>
         </View>
       </TouchableOpacity>
     </>

@@ -1,25 +1,18 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../constants/actiontypes';
+import { fetchPokemonFailure, fetchPokemonSuccess } from '../action/pokemonDataAction';
 
-async function fetchPokemons() {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch data: ${response.status}`);
-  }
-  return response.json();
-}
-
-function* getPokemons() {
+function* fetchPokemon(action) {
   try {
-    const data = yield fetchPokemons();
-    console.warn('getPokemons saga Api is called', data);
-    yield put({ type: ActionTypes.SET_FETCH_POKEMON, data });
+    const res = yield call(axios.get, action.payload);
+    yield put(fetchPokemonSuccess(res.data.results));
   } catch (error) {
-    console.error('Error fetching products:', error);
+    yield put(fetchPokemonFailure(error.message));
   }
 }
+
 function* pokemonSaga() {
-  yield takeEvery(ActionTypes.FETCH_POKEMON, getPokemons);
+  yield takeLatest(ActionTypes.FETCH_POKEMON_REQUEST, fetchPokemon);
 }
 
 export default pokemonSaga;
