@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../../../components/Loaders';
 import HomeCardContainer from '../../../container/HomeCardContainer';
 
 const Home = ({ navigation }) => {
@@ -11,7 +10,6 @@ const Home = ({ navigation }) => {
   const language = useSelector(state => state.language);
 
   useEffect(() => { }, [ language ]);
-  const [ loading, setLoading ] = useState(false);
 
   const countNumber = () => {
     const numbers = [];
@@ -118,7 +116,6 @@ const Home = ({ navigation }) => {
   };
   function vowelsAndConsonants(str) {
     let convertToLower=str.toLowerCase()
-
     for (let index = 0; index < convertToLower.length; index++) {
     }
     return convertToLower
@@ -131,6 +128,7 @@ const Home = ({ navigation }) => {
           flex: 1,
           paddingHorizontal: 20,
         }}></View>
+      <HomeCardContainer navigation={navigation}/>
       <Text style={{ color: '#000', fontSize: 25 }}>vowels And Consonants</Text>
       <Text style={{ color: '#000', fontSize: 25 }}>{vowelsAndConsonants("Saurav Kumar")}</Text>
       <Text style={{ color: '#000', fontSize: 25 }}>Area an perimeter of Circle</Text>
@@ -151,7 +149,6 @@ const Home = ({ navigation }) => {
       <Text style={{ color: '#000', fontSize: 25 }}>{downTriangle()}</Text>
       <Text style={{ color: '#000', fontSize: 25 }}>rightHandTriangle</Text>
       <Text style={{ color: '#000', fontSize: 25 }}>{rightHandTriangle()}</Text>
-      <Loader modalVisible={loading} setModalVisible={setLoading} />
     </ScrollView>
   );
 };
