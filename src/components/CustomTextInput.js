@@ -2,13 +2,13 @@ import { StyleSheet,  View, Image, TextInput } from 'react-native';
 import React from 'react';
 
 const  CustomTextInput = (props) => {
-    const { value, placeholder, icon, type, onChange, keyboardType } = props;
+    const { value, placeholder, icon, type, onChangeText, keyboardType } = props;
     return (
             <View style={styles.container}>
                 <Image source={icon} style={styles.imageContainer} />
                 <TextInput style={styles.textContainer}
                     value={value}
-                    onChange={onChange}
+                    onChangeText={onChangeText}
                     placeholder={placeholder}
                      placeholderTextColor={"#d1cfcf"}
                     secureTextEntry={type ? true : false}
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
          width:"100%",
           color:"black",
-          letterSpacing:2.3,
+          letterSpacing:2.1,
     }
 });

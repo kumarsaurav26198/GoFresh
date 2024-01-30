@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
@@ -16,12 +16,23 @@ import Notifications from '../screen/after/notification/Notifications';
 import Images from '../utils/Images';
 import ForgetPassword from '../screen/before/forgetPassword/ForgetPassword';
 import CreateNewPassword from '../screen/before/createNewPassword/CreateNewPassword';
+import auth from '@react-native-firebase/auth';
+import Home from '../screen/after/home/Home';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
     const Loading = useSelector((state) => state.loading);
     const theme = useSelector((state) => state.themeReducers);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = auth().onAuthStateChanged((user) => {
+            setUser(user);
+        });
+
+        return unsubscribe;
+    }, []);
 
     const screenOptions = {
         headerShown: false,
@@ -41,27 +52,31 @@ const AppNavigation = () => {
 
     const loadingView = (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-            <ActivityIndicator size="large"/>
+            <ActivityIndicator size="large" />
         </View>
     );
 
+    if (Loading) {
+        return loadingView;
+    }
+
     return (
         <NavigationContainer>
-            {Loading ? loadingView : (
-                <Stack.Navigator initialRouteName="LogInScreen" screenOptions={{ ...screenOptions }}>
-                    <Stack.Screen name="LogInScreen" component={LogInScreen} options={{ ...screenOptions }} />
-                    <Stack.Screen name="Register" component={Register} options={{ ...commonOptions }} />
-                    <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ ...commonOptions }} />
-                    <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} options={{ ...commonOptions }} />
-                    <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{ headerShown: false }} />
-                    <Stack.Screen name="About" component={About} options={{ ...commonOptions, title: 'About' }} />
-                    <Stack.Screen name="MyBook" component={MyBook} options={{ ...commonOptions, title: 'My Book'}} />
-                    <Stack.Screen name="Contact" component={Contact} options={{ ...commonOptions, title: 'Contact' }} />
-                    <Stack.Screen name="Websites" component={Websites} options={{...commonOptions, title: 'Websites'}} />
-                    <Stack.Screen name="Support" component={Support} options={{ ...commonOptions, title: 'Support'}} />
-                    <Stack.Screen name="Notifications" component={Notifications} options={{ ...commonOptions,title: 'Notification' }} />
-                </Stack.Navigator>
-            )}
+            <Stack.Navigator initialRouteName={user ? 'DrawerNavigation' : 'LogInScreen'} screenOptions={{ ...screenOptions }}>
+                <Stack.Screen name="LogInScreen" component={LogInScreen} options={{ ...screenOptions }} />
+                <Stack.Screen name="Register" component={Register} options={{ ...commonOptions }} />
+                <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ ...commonOptions }} />
+                <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} options={{ ...commonOptions }} />
+                {/* <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="Home" component={Home} options={{ ...commonOptions, title: 'Home' }} />
+                <Stack.Screen name="About" component={About} options={{ ...commonOptions, title: 'About' }} />
+
+                <Stack.Screen name="MyBook" component={MyBook} options={{ ...commonOptions, title: 'My Book' }} />
+                <Stack.Screen name="Contact" component={Contact} options={{ ...commonOptions, title: 'Contact' }} />
+                <Stack.Screen name="Websites" component={Websites} options={{ ...commonOptions, title: 'Websites' }} />
+                <Stack.Screen name="Support" component={Support} options={{ ...commonOptions, title: 'Support' }} />
+                <Stack.Screen name="Notifications" component={Notifications} options={{ ...commonOptions, title: 'Notification' }} />
+            </Stack.Navigator>
         </NavigationContainer>
     );
 };
