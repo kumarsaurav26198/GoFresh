@@ -10,76 +10,107 @@ import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
 import Images from '../../../utils/Images';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth'
+import database from '@react-native-firebase/database';
 
 const Register = ({ navigation }) => {
   const theme = useSelector(state => state.themeReducers);
-  const [ email, setEmail ] = useState('');
-  const [ badEmail, setBadEmail ] = useState(false);
-  const [ password, setPassword ] = useState('');
-  const [ badPassword, setBadPassword ] = useState('');
-  const { colors } = useTheme();
-  const handleSignUp = () => {
-    navigation.navigate('LogInScreen');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('')
+  const [confirmPass, setConfirmPass] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPassError, setConfirmPassError] = useState('');
+
+  const handleSignUp = async () => {
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPassError('');
+
+    if (!email || !password || !confirmPass ||!name) {
+      setConfirmPassError('Please fill in all fields');
+      return;
+    }
+
+    if (password !== confirmPass) {
+      setConfirmPassError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      console.log('User account created & signed in!', userCredential);
+      await userCredential.user.updateProfile({
+        displayName: name
+      });
+  
+      console.log('User account created & signed in!');
+      console.log('User profile updated:', userCredential.user);
+  
+      await database().ref('users/' + userCredential.user.uid).set({
+        email: email,
+        displayName: name,
+        password:password
+      });
+  
+      console.log('User details stored in the database!');
+      navigation.navigate("LogInScreen");
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        setEmailError('That email address is already in use!');
+      } else if (error.code === 'auth/invalid-email') {
+        setEmailError('That email address is invalid!');
+      } else {
+        console.error(error);
+        setEmailError('The supplied auth credential is not supported!');
+      }
+    }
   };
-  const handleFacebook = () => {
-    console.warn('handleFacebook');
-  };
-  const handleGoogle = () => {
-    console.warn('handleGoogle');
-  };
-  const handleApple = () => {
-    console.warn('handleApple');
-  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: theme ? 'black' : 'white', padding: 20, }}>
       <View style={{ paddingBottom: 40 }}>
-
-
         <View style={styles.imageContainer}>
           <Image source={Images.user} style={styles.imageContainer} />
         </View>
-        <CustomTextInput value={email} onChange={setEmail} placeholder="Enter your username..."
+        <CustomTextInput
+          value={name}
+          onChangeText={(text) => setName(text)}
+          placeholder="Enter your name..."
+          icon={Images.user}
+        />
+        <CustomTextInput
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          placeholder="Enter your email..."
           icon={Images.email}
         />
-        <CustomTextInput value={email} onChange={setEmail} placeholder="Enter your email..."
-          icon={Images.email}
-        />
-        <CustomTextInput value={email} onChange={setEmail} placeholder="Enter your password..."
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+        <CustomTextInput
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          placeholder="Enter your password..."
           icon={Images.password}
         />
-        <CustomTextInput value={email} onChange={setEmail} placeholder="Confirm your password..."
+        <CustomTextInput
+          value={confirmPass}
+          onChangeText={(text) => setConfirmPass(text)}
+          placeholder="Confirm your password..."
           icon={Images.password}
+          type={true}
         />
-        <CustomButton title={"Register"} onPress={() => { handleSignUp(); }} color={theme ? "#1bb57d" : "white"} backgroundColor={theme ? "white" : "#1bb57d"} />
+        {confirmPassError ? <Text style={styles.errorText}>{confirmPassError}</Text> : null}
         <CustomButton
-          title={'Sign with facebook'}
-          onPress={() => {
-            handleFacebook();
-          }}
-          color={theme ? '#4765a9' : '#4765a9'}
-          backgroundColor={theme ? 'white' : '#e7eaf4'}
-        />
-        <CustomButton
-          title={'Sign with Google'}
-          onPress={() => {
-            handleGoogle();
-          }}
-          color={theme ? '#dd4d44' : '#dd4d44'}
-          backgroundColor={theme ? '#fae9ea' : '#fae9ea'}
-        />
-        <CustomButton
-          title={'Sign with Apple'}
-          onPress={() => {
-            handleApple();
-          }}
-          color={theme ? '#000' : 'black'}
-          backgroundColor={theme ? '#e3e3e3' : '#e3e3e3'}
+          title={"Register"}
+          onPress={handleSignUp}
+          color={theme ? "#1bb57d" : "white"}
+          backgroundColor={theme ? "white" : "#1bb57d"}
         />
         <CustomButton
           title={
             <React.Fragment>
-               Have  an account
+              Have an account
               <Text
                 style={{
                   color: theme ? '#4765a9' : '#3b71f3',
@@ -98,10 +129,10 @@ const Register = ({ navigation }) => {
           backgroundColor={theme ? 'black' : 'white'}
         />
       </View>
-
     </ScrollView>
   );
 };
+
 
 export default Register;
 const styles = StyleSheet.create({
