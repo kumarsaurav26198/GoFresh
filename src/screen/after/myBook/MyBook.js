@@ -37,7 +37,7 @@ const MyBook = () => {
   const handleAddToList = async (bookname) => {
     try
     {
-      const res = await database().ref(`booktodo/${ data.length }`).set({
+      const res = await database().ref(`booktodo/${ data?.length?data.length:1 }`).set({
         book: bookname
       });
       console.log(res);

@@ -18,6 +18,7 @@ import ForgetPassword from '../screen/before/forgetPassword/ForgetPassword';
 import CreateNewPassword from '../screen/before/createNewPassword/CreateNewPassword';
 import auth from '@react-native-firebase/auth';
 import Home from '../screen/after/home/Home';
+import Details from '../screen/after/details/Details';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,6 @@ const AppNavigation = () => {
         const unsubscribe = auth().onAuthStateChanged((user) => {
             setUser(user);
         });
-
         return unsubscribe;
     }, []);
 
@@ -67,10 +67,10 @@ const AppNavigation = () => {
                 <Stack.Screen name="Register" component={Register} options={{ ...commonOptions }} />
                 <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ ...commonOptions }} />
                 <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} options={{ ...commonOptions }} />
-                {/* <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={Home} options={{ ...commonOptions, title: 'Home' }} />
+                <Stack.Screen name="Details" component={Details} options={{ ...commonOptions, title: 'Details' }} />
                 <Stack.Screen name="About" component={About} options={{ ...commonOptions, title: 'About' }} />
-
                 <Stack.Screen name="MyBook" component={MyBook} options={{ ...commonOptions, title: 'My Book' }} />
                 <Stack.Screen name="Contact" component={Contact} options={{ ...commonOptions, title: 'Contact' }} />
                 <Stack.Screen name="Websites" component={Websites} options={{ ...commonOptions, title: 'Websites' }} />

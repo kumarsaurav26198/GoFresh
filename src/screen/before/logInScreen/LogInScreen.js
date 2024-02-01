@@ -3,16 +3,18 @@ import React, { useState } from 'react';
 import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
 import Images from '../../../utils/Images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
+import { changeTheme } from '../../../redux/action/themeActions';
 
 const LogInScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const theme = useSelector(state => state.themeReducers);
-  // const [email, setEmail] = useState('saurav1@gmail.com');
-  const [email, setEmail] = useState('ranjeet@gmail.com');
-  const [password, setPassword] = useState('123456');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState('saurav1@gmail.com');
+  const [ password, setPassword ] = useState('123456');
+  const [ emailError, setEmailError ] = useState('');
+  const [ passwordError, setPasswordError ] = useState('');
+  const [ dark, setDark ] = useState(true);
 
   const handleRegister = () => {
     navigation.navigate('Register');
@@ -23,24 +25,30 @@ const LogInScreen = ({ navigation }) => {
     setPasswordError('');
 
     // Validate email and password
-    if (!email || !password) {
+    if (!email || !password)
+    {
       setEmailError('Please enter your email');
       setPasswordError('Please enter your password');
       return;
     }
 
-    try {
+    try
+    {
       await auth().signInWithEmailAndPassword(email, password);
-      // console.log('User logged in successfully!');
-      navigation.navigate('Home');
-    } catch (error) {
-      if (error.code === 'auth/user-not-found') {
+      navigation.navigate('DrawerNavigation');
+    } catch (error)
+    {
+      if (error.code === 'auth/user-not-found')
+      {
         setEmailError('No user found with this email!');
-      } else if (error.code === 'auth/wrong-password') {
+      } else if (error.code === 'auth/wrong-password')
+      {
         setPasswordError('Incorrect password!');
-      } else if (error.code === 'auth/invalid-email') {
+      } else if (error.code === 'auth/invalid-email')
+      {
         setEmailError('Invalid email address!');
-      } else {
+      } else
+      {
         console.error(error);
         setPasswordError('auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired!');
 
@@ -51,6 +59,15 @@ const LogInScreen = ({ navigation }) => {
 
   const handleForget = () => {
     navigation.navigate('ForgetPassword');
+  };
+  const handleFacebook = () => {
+    console.warn('handleFacebook');
+  };
+  const handleGoogle = () => {
+    console.warn('handleGoogle');
+  };
+  const handleApple = () => {
+    console.warn('handleApple');
   };
 
   return (
@@ -89,6 +106,47 @@ const LogInScreen = ({ navigation }) => {
         <CustomButton
           title={
             <React.Fragment>
+              Forget password
+              <Text
+                style={{ color: '#3b71f3', fontWeight: 'bold', fontSize: 22 }}>
+                {' '}
+                ?
+              </Text>
+            </React.Fragment>
+          }
+          onPress={() => {
+            handleForget();
+          }}
+          color={theme ? 'white' : '#000'}
+          backgroundColor={theme ? 'black' : 'white'}
+        />
+        <CustomButton
+          title={'Sign with facebook'}
+          onPress={() => {
+            handleFacebook();
+          }}
+          color={theme ? '#4765a9' : '#4765a9'}
+          backgroundColor={theme ? 'white' : '#e7eaf4'}
+        />
+        <CustomButton
+          title={'Sign with Google'}
+          onPress={() => {
+            handleGoogle();
+          }}
+          color={theme ? '#dd4d44' : '#dd4d44'}
+          backgroundColor={theme ? '#fae9ea' : '#fae9ea'}
+        />
+        <CustomButton
+          title={'Sign with Apple'}
+          onPress={() => {
+            handleApple();
+          }}
+          color={theme ? '#000' : 'black'}
+          backgroundColor={theme ? '#e3e3e3' : '#e3e3e3'}
+        />
+        <CustomButton
+          title={
+            <React.Fragment>
               Don't have an account
               <Text
                 style={{
@@ -104,6 +162,15 @@ const LogInScreen = ({ navigation }) => {
           onPress={handleRegister}
           color={theme ? 'white' : '#000'}
           backgroundColor={theme ? 'black' : 'white'}
+        />
+        <CustomButton
+          title={'Apply Theme'}
+          onPress={() => {
+            setDark(!dark);
+            dispatch(changeTheme(dark));
+          }}
+          color={theme ? '#1bb57d' : 'white'}
+          backgroundColor={theme ? 'white' : '#1bb57d'}
         />
       </View>
     </ScrollView>
