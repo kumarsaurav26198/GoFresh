@@ -62,7 +62,7 @@ const AppNavigation = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={user ? 'DrawerNavigation' : 'LogInScreen'} screenOptions={{ ...screenOptions }}>
+            <Stack.Navigator initialRouteName={user ? 'DrawerNavigation' : 'DrawerNavigation'} screenOptions={{ ...screenOptions }}>
                 <Stack.Screen name="LogInScreen" component={LogInScreen} options={{ ...screenOptions }} />
                 <Stack.Screen name="Register" component={Register} options={{ ...commonOptions }} />
                 <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ ...commonOptions }} />
