@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { createContext, useContext } from 'react';
 
 const ThemeContext = createContext('light');
- console.log("ThemeContext",ThemeContext)
 
 function ThemedButton() {
   const theme = useContext(ThemeContext);
