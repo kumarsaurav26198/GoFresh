@@ -4,13 +4,13 @@ import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
 import Images from '../../../utils/Images';
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '@react-native-firebase/auth';
 import { changeTheme } from '../../../redux/action/themeActions';
+import { loginRequest } from '../../../redux/action/authActions';
 
 const LogInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const theme = useSelector(state => state.themeReducers);
-  const [email, setEmail] = useState('saurav1@gmail.com');
+  const [ email, setEmail ] = useState('saurav1@gmail.com');
   const [ password, setPassword ] = useState('123456');
   const [ emailError, setEmailError ] = useState('');
   const [ passwordError, setPasswordError ] = useState('');
@@ -24,7 +24,6 @@ const LogInScreen = ({ navigation }) => {
     setEmailError('');
     setPasswordError('');
 
-    // Validate email and password
     if (!email || !password)
     {
       setEmailError('Please enter your email');
@@ -32,28 +31,36 @@ const LogInScreen = ({ navigation }) => {
       return;
     }
 
-    try
-    {
-      await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate('DrawerNavigation');
-    } catch (error)
-    {
-      if (error.code === 'auth/user-not-found')
-      {
-        setEmailError('No user found with this email!');
-      } else if (error.code === 'auth/wrong-password')
-      {
-        setPasswordError('Incorrect password!');
-      } else if (error.code === 'auth/invalid-email')
-      {
-        setEmailError('Invalid email address!');
-      } else
-      {
-        console.error(error);
-        setPasswordError('auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired!');
+    const loginData = {
+      email: email,
+      password: password,
 
-      }
-    }
+    };
+
+    dispatch(loginRequest(loginData));
+    navigation.navigate('DrawerNavigation');
+    // try
+    // {
+    //   await auth().signInWithEmailAndPassword(email, password);
+    //   navigation.navigate('DrawerNavigation');
+    // } catch (error)
+    // {
+    //   if (error.code === 'auth/user-not-found')
+    //   {
+    //     setEmailError('No user found with this email!');
+    //   } else if (error.code === 'auth/wrong-password')
+    //   {
+    //     setPasswordError('Incorrect password!');
+    //   } else if (error.code === 'auth/invalid-email')
+    //   {
+    //     setEmailError('Invalid email address!');
+    //   } else
+    //   {
+    //     console.error(error);
+    //     setPasswordError('auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired!');
+
+    //   }
+    // }
   };
 
 

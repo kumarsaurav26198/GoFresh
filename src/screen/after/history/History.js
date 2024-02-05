@@ -53,7 +53,6 @@ const History = () => {
       <Text style={{color:"black",fontSize:20}}>fetch RealTime Data from firebse store </Text>
       <Text>{runTimeData?.name}</Text>
       <Text>{runTimeData?.age}</Text>
-      
     </View>
   );
   
