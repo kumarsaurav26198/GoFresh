@@ -4,6 +4,7 @@ import userSaga from './userSaga';
 import productSaga from './productSaga';
 import registerUserSaga from './registerUserSaga';
 import loginUserSaga from './loginSaga';
+import fetchQrProductsSaga from './fetchQrProductsSaga';
 
 function* rootSaga() {
     yield all([
@@ -11,7 +12,8 @@ function* rootSaga() {
         userSaga(),
         productSaga(),
         registerUserSaga(),
-        loginUserSaga()
+        loginUserSaga(),
+        fetchQrProductsSaga()
     ]);
 }
 export default rootSaga;

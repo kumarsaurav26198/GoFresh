@@ -3,6 +3,11 @@ import React from 'react';
 import {Button, Card} from 'react-native-paper';
 
 const MyCard = ({title, email, fullName, onPress,imageUri}) => {
+  const getFirstCapital = fullName => {
+    if (!fullName) return '';
+    const firstName = fullName.split(' ')[0];
+    return firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  };
   return (
     <View style={{paddingTop: 30}}>
       <TouchableOpacity onPress={onPress}>
@@ -20,12 +25,12 @@ const MyCard = ({title, email, fullName, onPress,imageUri}) => {
             <Text
               variant="bodyLarge"
               style={{color: 'black', fontWeight: '300'}}>
-              ID : {fullName}
+              Location1 : {getFirstCapital(fullName)}
             </Text>
             <Text
               variant="bodyLarge"
               style={{color: 'black', fontWeight: '300'}}>
-              idCompo : {email}
+              Location2 : {getFirstCapital(email)}
             </Text>
           </Card.Content>
         </Card>

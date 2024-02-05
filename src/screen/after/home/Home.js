@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
-import HomeFirebaseContainer from '../../../container/HomeFirebaseContainer';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 import HomeQrContainer from '../../../container/HomeQrContainer';
+import HomeCardContainer from '../../../container/HomeCardContainer';
+import HomeFirebaseContainer from '../../../container/HomeFirebaseContainer';
 
 const Home = ({ navigation }) => {
   const theme = useSelector(state => state.themeReducers);
   const [showScanner, setShowScanner] = useState(false); // State to control the visibility of the QR scanner
 
   const handleScanButtonPress = () => {
-    setShowScanner(true); // Show the QR scanner when the button is pressed
+    setShowScanner(!showScanner);
   };
 
   const handleScannerRead = (event) => {
-    // Handle the scanned QR code here
     console.log('Scanned data:', event.data);
-    // You can add your logic here based on the scanned QR data
-    // For example, navigate to another screen based on the scanned data
   };
 
   const handleRevertButtonPress = () => {
@@ -27,10 +25,11 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme ? 'black' : 'white' }}>
+      <View style={{ flex: 1 }}>
+        <HomeFirebaseContainer/>
+        <HomeQrContainer navigation={navigation} />
 
-      {/* Conditionally render the QR scanner based on the state */}
-      {showScanner ? (
-        <View style={{ flex: 1 }}>
+        {showScanner ? (
           <QRCodeScanner
             showMarker={true}
             onRead={handleScannerRead}
@@ -42,21 +41,22 @@ const Home = ({ navigation }) => {
                 your computer and scan the QR code.
               </Text>
             }
-            bottomContent={
-              <TouchableOpacity onPress={handleRevertButtonPress} style={styles.revertButton}>
-                <Text style={styles.revertButtonText}>Want to see list</Text>
-              </TouchableOpacity>
-            }
+            // bottomContent={
+            //   <TouchableOpacity onPress={handleRevertButtonPress} style={styles.revertButton}>
+            //     <Text style={styles.revertButtonText}>Want to see list</Text>
+            //   </TouchableOpacity>
+            // }
           />
-        </View>
-      ) : (
-        <>
-          <HomeQrContainer navigation={navigation} />
-          <TouchableOpacity onPress={handleScanButtonPress} style={styles.scanButton}>
-            <Text style={styles.scanButtonText}>Scan QR Code</Text>
-          </TouchableOpacity>
-        </>
-      )}
+        ) : null}
+        <HomeCardContainer/>
+
+      </View>
+
+      <TouchableOpacity onPress={handleScanButtonPress} style={styles.scanButton}>
+
+        <Text style={styles.scanButtonText}>{!showScanner?"Scan QR Code":"Hide scanner"}</Text>
+
+      </TouchableOpacity>
 
     </ScrollView>
   );

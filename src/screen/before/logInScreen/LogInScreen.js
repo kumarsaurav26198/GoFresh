@@ -38,6 +38,7 @@ const LogInScreen = ({ navigation }) => {
     };
 
     dispatch(loginRequest(loginData));
+    navigation.navigate('DrawerNavigation');
     // try
     // {
     //   await auth().signInWithEmailAndPassword(email, password);
